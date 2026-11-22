@@ -395,11 +395,17 @@
     }
     // Top up any remaining items to hit exactly 1,000 if needed
     const extraContexts = ["Q4 Holiday Rush", "Evergreen Funnel", "Starter Shop", "Pro Scaling", "Mobile First", "Global English Market", "Flash Promo", "VIP Tier"];
-    let eIdx = 0;
+    const _slots = {};
+    const _seen = new Set(SKILLS.map(s => `${s.category}|${s.title}`));
     while (SKILLS.length < 1500) {
-      const group = CATALOG_BLUEPRINTS[eIdx % CATALOG_BLUEPRINTS.length];
-      const action = group.actions[eIdx % group.actions.length];
-      const ctx = extraContexts[eIdx % extraContexts.length];
+      const group = CATALOG_BLUEPRINTS[SKILLS.length % CATALOG_BLUEPRINTS.length];
+      const n = _slots[group.cat] || 0;
+      _slots[group.cat] = n + 1;
+      const action = group.actions[n % group.actions.length];
+      const ctx = extraContexts[Math.floor(n / group.actions.length) % extraContexts.length];
+      const _key = `${group.cat}|${action}: ${ctx}`;
+      if (_seen.has(_key)) continue;
+      _seen.add(_key);
       const num = String(SKILLS.length + 1).padStart(4, "0");
       const slugBase = `${action} ${ctx}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
       SKILLS.push({
@@ -415,7 +421,6 @@
           `Include 1-2 quick optimization tips or next actions the user can execute immediately.`
         ]
       });
-      eIdx++;
     }
 
     const PAGE_SIZE = 24;
