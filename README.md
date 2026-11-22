@@ -2,7 +2,7 @@
 
 Landing page for the **1,500 Ready-to-Install Claude Skills for Etsy & Small Business** digital product by KIACreative.
 
-**Live site:** https://adzcutecreative-cell.github.io/kiacreative-ai-skills-vault/
+**Live site:** https://adzcutecreative-cell.github.io/claude-skills-vault/
 
 ## What's inside
 
